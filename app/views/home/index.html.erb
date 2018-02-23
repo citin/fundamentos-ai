@@ -1,0 +1,39 @@
+<div class="jumbotron jumbotron-fluid">
+  <div class="container text-center">
+    <h1 class="display-4">Auto-suggest-me</h1>
+    <p class="lead">un buscador que utiliza un Agente Inteligente (IA) para auto-suggestions de palabras</p>
+    <p class="lead">basado en hits y última fecha de búsqueda</p>
+  </div>
+</div>
+
+<div class="card mx-auto w-50">
+  <div class="card-body w-100">
+    <%= form_tag("/search", method: "get", remote: true) do %>
+      <div class="form-group">
+        <%= select_tag(:search_input, "", class: "w-75 js-data-example-ajax") %>
+        <%= submit_tag("Buscar", class: "btn btn-outline-warning") %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<script>
+  $('#search_input').select2({
+    // configuration
+    placeholder: 'Ingrese su búsqueda',
+    minimumInputLength: 2,
+    tags: true,
+    allowClear: true,
+    selectOnClose: true,
+    // ajax options
+    ajax: {
+      url: 'http://localhost:3000/find_suggestions/',
+      data: function (params) {
+        var query = {
+          search: params.term,
+        }
+        return query;
+      }
+    }
+  });
+</script>
