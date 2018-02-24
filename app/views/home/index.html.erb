@@ -17,17 +17,24 @@
   </div>
 </div>
 
+
+<div class="card mx-auto w-50 mt-5 results-card" style="display: none;">
+  <div class="card-body w-100">
+    <div class="search_result">
+    </div>
+  </div>
+</div>
+
 <script>
   $('#search_input').select2({
     // configuration
     placeholder: 'Ingrese su búsqueda',
-    minimumInputLength: 2,
     tags: true,
     allowClear: true,
     selectOnClose: true,
     // ajax options
     ajax: {
-      url: 'http://boiling-savannah-21741.herokuapp.com/find_suggestions',
+      url: "<%= find_suggestions_path  %>",
       data: function (params) {
         var query = {
           search: params.term,

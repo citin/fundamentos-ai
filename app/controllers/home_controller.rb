@@ -25,14 +25,19 @@ class HomeController < ApplicationController
   end
 
   def search
-    query = params[:search_input]
-    # sanitize query
-    query.downcase!
-    query = I18n.transliterate(query)
-    # process search
-    increase_hits(query) || Search.create(text: query)
+    @query = params[:search_input]
 
-    render js: "alert('Buscaste: #{params[:search_input]}');"
+    # sanitize query
+    @query.downcase!
+    @query = I18n.transliterate(@query)
+    
+    # process search
+    increase_hits(@query) || Search.create(text: @query)
+
+    # find similar words 
+    unprocessed_suggestions = Search.where("text LIKE :query", {:query => "%#{@query}%"})
+    # score, sort and limit results
+    @top_ten_suggestions = unprocessed_suggestions.sort {|min, max| max.score <=> min.score}.first(NUMBER_OF_SUGGESTIONS)
   end
 
   def increase_hits(query)

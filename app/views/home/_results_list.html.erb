@@ -1,0 +1,25 @@
+<p class="lead">Búsquedas relacionadas</p>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Texto</th>
+      <th scope="col">Hits</th>
+      <th scope="col">Score</th>
+      <th scope="col">Ultima busqueda</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @top_ten_suggestions.each do |suggestion| %>
+      <tr 
+        <% if @query == suggestion.text %>
+            class="bg-success"  
+          <% end %> >
+          <th scope="row"><%= suggestion.text %></th>
+          <td><%= suggestion.hits %></td>
+          <td><%= suggestion.score %></td>
+          <td><%= suggestion.elapsed_days %> dias atras</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
