@@ -3,8 +3,6 @@ class HomeController < ApplicationController
   NUMBER_OF_SUGGESTIONS = 5
   MAX_RANKING = 50
 
-  skip_before_action :verify_authenticity_token
-
   def index
   end
 
