@@ -12,7 +12,7 @@ class HomeController < ApplicationController
     query.downcase!
     query = I18n.transliterate(query)
     # find similar words 
-    unprocessed_suggestions = Search.where("searches.text LIKE :query", {:query => "%#{query}%"})
+    unprocessed_suggestions = Search.where("text LIKE :query", {:query => "%#{query}%"})
     # score, sort and limit results
     top_ten_suggestions = unprocessed_suggestions.sort {|min, max| max.score <=> min.score}.first(NUMBER_OF_SUGGESTIONS)
     # build json response
