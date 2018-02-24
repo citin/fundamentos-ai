@@ -1,24 +1,8 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Trabajo Final de la materia Fundamentos de la Teoría de la Computación
 
-Things you may want to cover:
+Implemente un buscador que utiliza un Agente Inteligente (IA) para auto-suggestions de palabras basado en hits y última fecha de búsqueda.
 
-* Ruby version
+http://fundamentos-ai.herokuapp.com/
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
