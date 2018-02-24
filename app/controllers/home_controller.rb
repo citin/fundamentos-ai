@@ -7,38 +7,21 @@ class HomeController < ApplicationController
   end
 
   def find_suggestions
-    query = params[:search]
-    # sanitize query
-    query.downcase!
-    query = I18n.transliterate(query)
-    # find similar words 
-    unprocessed_suggestions = Search.where("text LIKE :query", {:query => "%#{query}%"})
-    # score, sort and limit results
-    top_ten_suggestions = unprocessed_suggestions.sort {|min, max| max.score <=> min.score}.first(NUMBER_OF_SUGGESTIONS)
-    # build json response
-    results_list = []
-    top_ten_suggestions.each do |word|
-      results_list << {id: word.text, text: word.text}
-    end
+    query = sanitize(params[:search])
+    top_ten_suggestions = find_top_ten(query)
 
-    render json: {"results": results_list}
+    render json: build_json_response(top_ten_suggestions) 
   end
 
   def search
-    @query = params[:search_input]
+    @query = sanitize(params[:search_input])
+    @top_ten_suggestions = find_top_ten(@query)
 
-    # sanitize query
-    @query.downcase!
-    @query = I18n.transliterate(@query)
-    
     # process search
     increase_hits(@query) || Search.create(text: @query)
-
-    # find similar words 
-    unprocessed_suggestions = Search.where("text LIKE :query", {:query => "%#{@query}%"})
-    # score, sort and limit results
-    @top_ten_suggestions = unprocessed_suggestions.sort {|min, max| max.score <=> min.score}.first(NUMBER_OF_SUGGESTIONS)
   end
+
+  private
 
   def increase_hits(query)
     search = Search.find_by_text(query)
@@ -47,5 +30,26 @@ class HomeController < ApplicationController
     else
       false
     end
+  end
+
+  def sanitize(query)
+    # sanitize query
+    query.downcase!
+    I18n.transliterate(query)
+  end
+
+  def find_top_ten(query)
+    # find similar words 
+    unprocessed_suggestions = Search.where("text LIKE :query", {:query => "%#{query}%"})
+    # score, sort and limit results
+    unprocessed_suggestions.sort {|min, max| max.score <=> min.score}.first(NUMBER_OF_SUGGESTIONS)
+  end
+
+  def build_json_response(results)
+    results_list = []
+    results.each do |word|
+      results_list << {id: word.text, text: word.text}
+    end
+    {"results": results_list}
   end
 end

@@ -1,12 +1,12 @@
-<p class="lead">Búsquedas relacionadas</p>
+<p class="lead">Búsquedas relacionadas con <span class="font-weight-bold"><%= @query %></span></p>
 
 <table class="table">
   <thead>
     <tr>
       <th scope="col">Texto</th>
       <th scope="col">Hits</th>
-      <th scope="col">Score</th>
       <th scope="col">Ultima busqueda</th>
+      <th scope="col">Score</th>
     </tr>
   </thead>
   <tbody>
@@ -17,8 +17,8 @@
           <% end %> >
           <th scope="row"><%= suggestion.text %></th>
           <td><%= suggestion.hits %></td>
-          <td><%= suggestion.score %></td>
           <td><%= suggestion.elapsed_days %> dias atras</td>
+          <td><%= suggestion.score.round(4) %></td>
       </tr>
     <% end %>
   </tbody>
