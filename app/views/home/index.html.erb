@@ -28,9 +28,6 @@
     // ajax options
     ajax: {
       url: 'http://localhost:3000/find_suggestions/',
-      headers: {
-                    'Access-Control-Allow-Origin': '*'
-                },
       data: function (params) {
         var query = {
           search: params.term,
